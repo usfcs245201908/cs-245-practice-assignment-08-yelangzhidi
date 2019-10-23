@@ -31,10 +31,12 @@ public class BST<T> {
             return new Node(item);
         if (item.compareTo(node.data) == 0)
             node.instance++;
-        if (item.compareTo(node.data) < 0)
-            node.left = insert(item, node.left);
-        else
-            node.right = insert(item, node.right);
+        else {
+            if (item.compareTo(node.data) < 0)
+                node.left = insert(item, node.left);
+            else
+                node.right = insert(item, node.right);
+        }
         return node;
     }
     public void print(){
@@ -44,7 +46,9 @@ public class BST<T> {
         if (node == null)
             return null;
         print(node.left);
-        System.out.println(node.data);
+        for (int i = node.instance; i >= 0; i--){
+            System.out.println(node.data);
+        }
         print(node.right);
         return node;
     }
@@ -55,18 +59,22 @@ public class BST<T> {
         if (node == null)
             return null;
         if (item.compareTo(node.data) == 0){
-            if (node.left == null)
-                return node.right;
-            if (node.right == null)
-                return node.left;
-            if (node.right.left == null){
-                node.data = node.right.data;
-                node.right = node.right.right;
-                return node;
+            if (node.instance > 0){
+                node.instance--;
             }
             else{
-                node.data = removeSmallest(node.right);
-                return node;
+                if (node.left == null)
+                    return node.right;
+                if (node.right == null)
+                    return node.left;
+                if (node.right.left == null) {
+                    node.data = node.right.data;
+                    node.right = node.right.right;
+                    return node;
+                } else {
+                    node.data = removeSmallest(node.right);
+                    return node;
+                }
             }
         }
         if (item.compareTo(node.data) < 0){
