@@ -45,11 +45,11 @@ public class BST<T> {
     private Node print(Node node){
         if (node == null)
             return null;
-        print(node.left);
+        node.left = print(node.left);
         for (int i = node.instance; i >= 0; i--){
             System.out.println(node.data);
         }
-        print(node.right);
+        node.right = print(node.right);
         return node;
     }
     public void delete(Comparable item){
